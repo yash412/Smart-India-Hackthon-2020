@@ -1,4 +1,4 @@
-name: rizen_sih_2020
+name: finalsih2020
 description: A new Flutter application.
 
 # The following defines the version and build number for your application.
@@ -19,6 +19,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  image_picker: ^0.6.7+4
+  path_provider: ^1.6.11
+  path:
+
+  mongo_dart: ^0.4.0
+
+
+
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -41,9 +50,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
+  assets:
+    - images/Sports.png
+    - images/profile.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
