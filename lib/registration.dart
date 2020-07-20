@@ -155,10 +155,10 @@ class Registration extends StatelessWidget {
                     child: new RaisedButton(
                         child: Text('Add Faces'),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ImageInput()));
+//                          Navigator.push(
+//                              context,
+//                              MaterialPageRoute(
+//                                  builder: (context) => ImageInput()));
                         }),
                   ),
                   new Container(
@@ -197,10 +197,10 @@ class Registration extends StatelessWidget {
   }
 
   void DataColl() async {
-    Db db = new Db("mongodb://localhost:27017/people");
+    Db db = new Db("mongodb://10.0.2.2:27017/people");
     await db.open();
     print('connected to database');
-    DbCollection coll = db.collection("students");
+    DbCollection coll = db.collection("employee");
     await coll.insert({
       "name": name,
       "dob": dob,
@@ -210,8 +210,8 @@ class Registration extends StatelessWidget {
       "cPass": cPass,
       "location": loc
     });
-    var student = await coll.find().toList();
-    print(student);
+    var employee = await coll.find().toList();
+    print(employee);
     await db.close();
   }
 }
