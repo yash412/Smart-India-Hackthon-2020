@@ -101,20 +101,25 @@ class LoginState extends StatelessWidget {
                       ),
                       onPressed: () {
                         login();
-                        if (logemploy == null) {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Invalid Email or Password"),
-                                );
-                              });
-                        } else {
-                          Navigator.push(
+//                if (logemploy == null) {
+//                          showDialog(
+//                              context: context,
+//                              builder: (BuildContext context) {
+//                                return AlertDialog(
+//                                  title: Text("Invalid Email or Password"),
+//                                );
+//                              });
+//                        } else {
+//                          Navigator.push(
+//                              context,
+//                              MaterialPageRoute(
+//                                  builder: (context) => MyAppState()));
+//                        }
+                        Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MyAppState()));
-                        }
+
                       },
                     )),
                 Container(
