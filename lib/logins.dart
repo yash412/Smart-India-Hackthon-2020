@@ -1,3 +1,4 @@
+import 'package:SmartIndiaHackthon2020/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import './registration.dart';
@@ -5,6 +6,8 @@ import './image_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mongo_dart/mongo_dart.dart' as dart_mongo;
 import 'package:mongo_dart_query/mongo_aggregation.dart';
+import 'profile_page.dart';
+
 var Logemail;
 var Logpass;
 var logemploy;
@@ -16,7 +19,6 @@ void main() {
 }
 
 class LoginState extends StatelessWidget {
-
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -40,7 +42,6 @@ class LoginState extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                           fontSize: 20),
                     )),
-
                 Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(10),
@@ -58,7 +59,7 @@ class LoginState extends StatelessWidget {
                     ),
                     onSubmitted: (text) {
                       print("First text field: $text");
-                      Logemail=text;
+                      Logemail = text;
 
                       print(Logemail);
                     },
@@ -75,7 +76,7 @@ class LoginState extends StatelessWidget {
                     ),
                     onSubmitted: (text) {
                       print("First text field: $text");
-                      Logpass=text;
+                      Logpass = text;
 
                       print(Logpass);
                     },
@@ -100,29 +101,48 @@ class LoginState extends StatelessWidget {
                       ),
                       onPressed: () {
                         login();
-
+//                if (logemploy == null) {
+//                          showDialog(
+//                              context: context,
+//                              builder: (BuildContext context) {
+//                                return AlertDialog(
+//                                  title: Text("Invalid Email or Password"),
+//                                );
+//                              });
+//                        } else {
+//                          Navigator.push(
+//                              context,
+//                              MaterialPageRoute(
+//                                  builder: (context) => MyAppState()));
+//                        }
+                        Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyAppState()));
 
                       },
                     )),
                 Container(
                     child: Row(
-                      children: <Widget>[
-                        Text('Does not have account?'),
-                        FlatButton(
-                          textColor: Colors.blue,
-                          child: Text(
-                            'Sign up',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(
+                  children: <Widget>[
+                    Text('Does not have account?'),
+                    FlatButton(
+                      textColor: Colors.blue,
+                      child: Text(
+                        'Sign up',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
                                 builder: (context) => Registration()));
-                            //signup screen
-                          },
-                        )
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ))
+                        //signup screen
+                      },
+                    )
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                ))
               ],
             )));
   }
@@ -131,11 +151,19 @@ class LoginState extends StatelessWidget {
     Db db = new Db("mongodb://10.0.2.2:27017/people");
     await db.open();
     DbCollection coll = db.collection("employee");
-    var employ = await coll.findOne({ r'$and': [ { "email": Logemail}, { "password": Logpass}]});
-    logemploy=employ;
+//    var employ = await coll.findOne({
+//      r'$and': [
+//        {"email": Logemail},
+//        {"password": Logpass}
+//      ]
+//    });
+//    logemploy = employ;
+//    print(employ);
 
-    print(employ);
+    var val = await coll.findOne({"_id":0, "name":1, "phone":1, "email":0,"dob":0,"password":0,"cPass":0,"loc":0});
+    print(val);
   }
+}
 
 //  class SportsImageAsset extends StatelessWidget{
 //  @override
@@ -146,4 +174,3 @@ class LoginState extends StatelessWidget {
 //
 //  }
 //  }
-}

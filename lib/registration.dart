@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:mongo_dart/mongo_dart.dart' as dart_mongo;
 import './image_input.dart';
+import 'image_save.dart';
 
 final TextEditingController _pass = TextEditingController();
 final TextEditingController _confirmPass = TextEditingController();
@@ -53,7 +54,7 @@ class Registration extends StatelessWidget {
                       hintText: 'Enter your first and last name',
                       labelText: 'Name',
                     ),
-                    onFieldSubmitted: (text) {
+                    onChanged: (text) {
                       print("First text field: $text");
                       name = text;
                       print(name);
@@ -169,7 +170,7 @@ class Registration extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ImageInput()));
+                                  builder: (context) => SaveImageDemo()));
                         }),
                   ),
                   new Container(
@@ -208,7 +209,7 @@ class Registration extends StatelessWidget {
   }
 
   void DataColl() async {
-    Db db = new Db("mongodb://192.168.43.56:27017/people");
+    Db db = new Db("mongodb://10.0.2.2:27017/people");
     await db.open();
     print('connected to database');
     DbCollection coll = db.collection("employee");
@@ -242,4 +243,6 @@ String validDOB(String value) {
   else
     return null;
 
+
 }
+
