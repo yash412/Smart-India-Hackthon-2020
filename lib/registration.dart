@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:mongo_dart/mongo_dart.dart' as dart_mongo;
 import './image_input.dart';
+import 'image_save.dart';
 
 final TextEditingController _pass = TextEditingController();
 final TextEditingController _confirmPass = TextEditingController();
@@ -53,7 +54,7 @@ class Registration extends StatelessWidget {
                       hintText: 'Enter your first and last name',
                       labelText: 'Name',
                     ),
-                    onFieldSubmitted: (text) {
+                    onChanged: (text) {
                       print("First text field: $text");
                       name = text;
                       print(name);
@@ -95,6 +96,7 @@ class Registration extends StatelessWidget {
                       phone = text;
                       print(phone);
                     },
+
                   ),
                   new TextFormField(
                     decoration: const InputDecoration(
@@ -168,7 +170,7 @@ class Registration extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ImageInput()));
+                                  builder: (context) => SaveImageDemo()));
                         }),
                   ),
                   new Container(
@@ -241,4 +243,6 @@ String validDOB(String value) {
   else
     return null;
 
+
 }
+
