@@ -100,9 +100,7 @@ class LoginState extends StatelessWidget {
                       ),
                       onPressed: () {
                         login();
-                        if (logemploy == null){
-                          print("Invalid Email or password");
-                        }
+
 
                       },
                     )),

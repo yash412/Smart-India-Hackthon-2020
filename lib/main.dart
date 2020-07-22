@@ -1,4 +1,4 @@
-import 'login_page.dart';
+import 'logins.dart';
 import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 

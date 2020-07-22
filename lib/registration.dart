@@ -7,6 +7,8 @@ import './image_input.dart';
 final TextEditingController _pass = TextEditingController();
 final TextEditingController _confirmPass = TextEditingController();
 String _email;
+String _mobile;
+String _vDOB;
 var name;
 var dob;
 var phone;
@@ -64,6 +66,10 @@ class Registration extends StatelessWidget {
                       labelText: 'Dob',
                     ),
                     keyboardType: TextInputType.datetime,
+                    validator: validDOB,
+                    onSaved:  (String val) {
+                      _vDOB = val;
+                    },
                     onFieldSubmitted: (text) {
                       print("First text field: $text");
                       dob = text;
@@ -76,6 +82,10 @@ class Registration extends StatelessWidget {
                       hintText: 'Enter a phone number',
                       labelText: 'Phone',
                     ),
+                    validator: validateMobile,
+                    onSaved: (String val) {
+                      _mobile = val;
+                    },
                     keyboardType: TextInputType.phone,
                     inputFormatters: [
                       WhitelistingTextInputFormatter.digitsOnly,
@@ -85,6 +95,7 @@ class Registration extends StatelessWidget {
                       phone = text;
                       print(phone);
                     },
+
                   ),
                   new TextFormField(
                     decoration: const InputDecoration(
@@ -155,10 +166,10 @@ class Registration extends StatelessWidget {
                     child: new RaisedButton(
                         child: Text('Add Faces'),
                         onPressed: () {
-//                          Navigator.push(
-//                              context,
-//                              MaterialPageRoute(
-//                                  builder: (context) => ImageInput()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ImageInput()));
                         }),
                   ),
                   new Container(
@@ -197,7 +208,7 @@ class Registration extends StatelessWidget {
   }
 
   void DataColl() async {
-    Db db = new Db("mongodb://10.0.2.2:27017/people");
+    Db db = new Db("mongodb://192.168.43.56:27017/people");
     await db.open();
     print('connected to database');
     DbCollection coll = db.collection("employee");
@@ -214,4 +225,21 @@ class Registration extends StatelessWidget {
     print(employee);
     await db.close();
   }
+}
+String validateMobile(String value) {
+// Indian Mobile number are of 10 digit only
+  if (value.length != 10)
+    return 'Mobile Number must be of 10 digit';
+  else
+    return null;
+}
+String validDOB(String value) {
+  Pattern pattern =
+      r'^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/([12][0-9]{3})$';
+  RegExp regex = new RegExp(pattern);
+  if (!regex.hasMatch(value))
+    return 'Enter DOB in format DD/MM/YYYY';
+  else
+    return null;
+
 }
