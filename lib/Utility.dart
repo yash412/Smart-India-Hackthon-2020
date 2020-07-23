@@ -4,6 +4,9 @@ import 'dart:typed_data';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'registration.dart';
+String photo ;
+
 class Utility {
 
   static const String IMG_key ='IMAGE_key';
@@ -20,7 +23,9 @@ class Utility {
   }
   //convert into base64
   static String base64String(Uint8List data){
-    return base64Encode(data);
+    photo= base64Encode(data);
+    print("I wnt to : $photo");
+    return photo;
   }
   //convert into String
   static Image imageFromBase64String(String base64String){
