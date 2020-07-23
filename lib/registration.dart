@@ -1,11 +1,12 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'Utility.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'dart:io';
 import 'image_save.dart';
+
+
 final TextEditingController _pass = TextEditingController();
 final TextEditingController _confirmPass = TextEditingController();
 File inimage;
@@ -59,7 +60,7 @@ class Registration extends StatelessWidget {
                       hintText: 'Enter your first and last name',
                       labelText: 'Name',
                     ),
-                    onFieldSubmitted: (text) {
+                    onChanged: (text) {
                       print("First text field: $text");
                       name = text;
                       print(name);
@@ -72,7 +73,7 @@ class Registration extends StatelessWidget {
                       labelText: 'Dob',
                     ),
                     keyboardType: TextInputType.datetime,
-                    onFieldSubmitted: (text) {
+                    onChanged: (text) {
                       print("First text field: $text");
                       dob = text;
                       print(dob);
@@ -88,7 +89,7 @@ class Registration extends StatelessWidget {
                     inputFormatters: [
                       WhitelistingTextInputFormatter.digitsOnly,
                     ],
-                    onFieldSubmitted: (text) {
+                    onChanged: (text) {
                       print("First text field: $text");
                       phone = text;
                       print(phone);
@@ -104,7 +105,7 @@ class Registration extends StatelessWidget {
                     validator: (val) =>
                     !val.contains('@') ? 'Invalid Email' : null,
                     onSaved: (val) => _email = val,
-                    onFieldSubmitted: (text) {
+                    onChanged: (text) {
                       print("First text field: $text");
                       email = text;
                       print(email);
@@ -119,7 +120,7 @@ class Registration extends StatelessWidget {
                     ),
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
-                    onFieldSubmitted: (text) {
+                    onChanged: (text) {
                       print("First text field: $text");
                       pass = text;
                       print(pass);
@@ -138,7 +139,7 @@ class Registration extends StatelessWidget {
                     ),
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
-                    onFieldSubmitted: (text) {
+                    onChanged: (text) {
                       print("First text field: $text");
                       cPass = text;
                       print(cPass);
@@ -150,7 +151,7 @@ class Registration extends StatelessWidget {
                       hintText: 'Enter your office location',
                       labelText: 'Office location',
                     ),
-                    onFieldSubmitted: (text) {
+                    onChanged: (text) {
                       print("First text field: $text");
                       loc = text;
                       print(loc);
@@ -187,7 +188,6 @@ class Registration extends StatelessWidget {
                       onPressed: () {
                         bookFlight(context);
                         DataColl();
-//                       g.get_image();
 
                       },
                     ),
@@ -206,10 +206,10 @@ class Registration extends StatelessWidget {
         context: context, builder: (BuildContext context) => alertDialog);}
 
   DataColl() async {
-    Db db = new Db("mongodb://192.168.43.34:27017/test");
+    Db db = new Db("mongodb://10.0.2.2:27017/people");
     await db.open();
     print('connected to database');
-    DbCollection coll = db.collection("people");
+    DbCollection coll = db.collection("employee");
     await coll.insert({
       "name": name,
       "dob": dob,
@@ -220,12 +220,27 @@ class Registration extends StatelessWidget {
       "location": loc,
       "imagString" : photo
     });
-    var  dictValue = await coll.find(where.match("name", "pratik")
-        .excludeFields(["_id","password","name","cPass","location","email","phone","dob"])).toList() ;
-
-    var arrayEle=dictValue[0];
-    dbImg = arrayEle['imagString'];
-    print(dbImg);
+    var employee = await coll.find().toList();
+    print(employee);
     await db.close();
+
   }
+}
+String validateMobile(String value) {
+// Indian Mobile number are of 10 digit only
+  if (value.length != 10)
+    return 'Mobile Number must be of 10 digit';
+  else
+    return null;
+}
+String validDOB(String value) {
+  Pattern pattern =
+      r'^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/([12][0-9]{3})$';
+  RegExp regex = new RegExp(pattern);
+  if (!regex.hasMatch(value))
+    return 'Enter DOB in format DD/MM/YYYY';
+  else
+    return null;
+
+
 }

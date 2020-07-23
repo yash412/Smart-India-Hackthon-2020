@@ -3,7 +3,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'Utility.dart';
 import 'registration.dart';
-String outImg=dbImg;
+
+String outImg = dbImg;
 
 class SaveImageDemo extends StatefulWidget {
   SaveImageDemo() : super();
