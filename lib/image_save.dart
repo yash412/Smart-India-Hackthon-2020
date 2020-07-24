@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'Utility.dart';
-import 'registration.dart';
-String outImg=dbImg;
 
 class SaveImageDemo extends StatefulWidget {
   SaveImageDemo() : super();
@@ -26,12 +24,12 @@ class _SaveImageDemoState extends State<SaveImageDemo> {
   }
 
   loadImageFromPreferences() {
-    Utility.getImageFromPreferences().then((outImg) {
-      if (null == outImg) {
+    Utility.getImageFromPreferences().then((img) {
+      if (null == img) {
         return;
       }
       setState(() {
-        imageFromPreferences = Utility.imageFromBase64String(outImg);
+        imageFromPreferences = Utility.imageFromBase64String(img);
       });
     });
   }
