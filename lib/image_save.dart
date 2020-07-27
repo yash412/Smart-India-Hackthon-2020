@@ -2,20 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'Utility.dart';
+import 'registration.dart';
 
+
+
+Image imageFromPreferences;
 class SaveImageDemo extends StatefulWidget {
   SaveImageDemo() : super();
 
   final String title = "Flutter Save Image in Preferences";
 
   @override
-  _SaveImageDemoState createState() => _SaveImageDemoState();
+  SaveImageDemoState createState() => SaveImageDemoState();
+
+
 }
 
-class _SaveImageDemoState extends State<SaveImageDemo> {
+class SaveImageDemoState extends State<SaveImageDemo> {
   //
   Future<File> imageFile;
-  Image imageFromPreferences;
+
 
   pickImageFromGallery(ImageSource source) {
     setState(() {
@@ -24,12 +30,13 @@ class _SaveImageDemoState extends State<SaveImageDemo> {
   }
 
   loadImageFromPreferences() {
-    Utility.getImageFromPreferences().then((img) {
-      if (null == img) {
+    Utility.getImageFromPreferences().then((outImg) {
+      if (null == outImg) {
         return;
       }
       setState(() {
-        imageFromPreferences = Utility.imageFromBase64String(img);
+        imageFromPreferences = Utility.imageFromBase64String(outImg);
+
       });
     });
   }

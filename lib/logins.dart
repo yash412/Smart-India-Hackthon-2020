@@ -43,6 +43,18 @@ class LoginState extends StatelessWidget {
                           fontSize: 20),
                     )),
                 Container(
+                  height: 120.0,
+                  width: 120.0,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                          'images/Sports.png'),
+
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(10),
                     child: Text(
@@ -57,7 +69,7 @@ class LoginState extends StatelessWidget {
                       border: OutlineInputBorder(),
                       labelText: 'Email',
                     ),
-                    onSubmitted: (text) {
+                    onChanged: (text) {
                       print("First text field: $text");
                       Logemail = text;
 
@@ -74,7 +86,7 @@ class LoginState extends StatelessWidget {
                       border: OutlineInputBorder(),
                       labelText: 'Password',
                     ),
-                    onSubmitted: (text) {
+                    onChanged: (text) {
                       print("First text field: $text");
                       Logpass = text;
 
@@ -101,76 +113,168 @@ class LoginState extends StatelessWidget {
                       ),
                       onPressed: () {
                         login();
-//                if (logemploy == null) {
-//                          showDialog(
-//                              context: context,
-//                              builder: (BuildContext context) {
-//                                return AlertDialog(
-//                                  title: Text("Invalid Email or Password"),
-//                                );
-//                              });
-//                        } else {
-//                          Navigator.push(
-//                              context,
-//                              MaterialPageRoute(
-//                                  builder: (context) => MyAppState()));
-//                        }
-                        Navigator.push(
+                        emprofile();
+                        if (null == logemploy) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Invalid Email or Password"),
+                                );
+                              });
+                        }else {
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MyAppState()));
+                        }
+
 
                       },
                     )),
                 Container(
                     child: Row(
-                  children: <Widget>[
-                    Text('Does not have account?'),
-                    FlatButton(
-                      textColor: Colors.blue,
-                      child: Text(
-                        'Sign up',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Registration()));
-                        //signup screen
-                      },
-                    )
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.center,
-                ))
+                      children: <Widget>[
+                        Text('Does not have account?'),
+                        FlatButton(
+                          textColor: Colors.blue,
+                          child: Text(
+                            'Sign up',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Registration()));
+                            //signup screen
+                          },
+                        )
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ))
               ],
             )));
   }
 
   void login() async {
-    Db db = new Db("mongodb://10.0.2.2:27017/people");
+    Db db = new Db("mongodb://10.0.2.2:27017/worker");
     await db.open();
     DbCollection coll = db.collection("employee");
-//    var employ = await coll.findOne({
-//      r'$and': [
-//        {"email": Logemail},
-//        {"password": Logpass}
-//      ]
-//    });
-//    logemploy = employ;
-//    print(employ);
-
-    var val = await coll.findOne({"_id":0, "name":1, "phone":1, "email":0,"dob":0,"password":0,"cPass":0,"loc":0});
-    print(val);
+    var employ = await coll.findOne({
+      r'$and': [
+        {"email": Logemail},
+        {"password": Logpass}
+      ]
+    });
+    logemploy = employ;
   }
 }
 
-//  class SportsImageAsset extends StatelessWidget{
-//  @override
-//  Widget build(BuildContext context) {
-//  AssetImage assetImage =AssetImage('images/Sports.png');
-//  Image image = Image(image: assetImage, width: 200.0, height: 200.0,);
-//  return Container(child: image,);
-//
-//  }
-//  }
+// this method is used in profile.dart file.
+
+emprofile() async {
+  Db db = new Db("mongodb://10.0.2.2:27017/worker");
+  await db.open();
+  print('connected to database');
+  DbCollection coll = db.collection("employee");
+
+  var dictValue0 = await coll
+      .find(where.match("email", Logemail).excludeFields([
+    "_id",
+    "password",
+    "imgString",
+    "cPass",
+    "location",
+    "email",
+    "phone",
+    "dob"
+  ]))
+      .toList();
+  var arrayEle0 = dictValue0[0];
+
+  empName = arrayEle0['name'];
+  print(empName);
+
+  var dictValue1 = await coll
+      .find(where.match("email", Logemail).excludeFields([
+    "_id",
+    "password",
+    "imgString",
+    "cPass",
+    "location",
+    "name",
+    "phone",
+    "dob"
+  ]))
+      .toList();
+  var arrayEle1 = dictValue1[0];
+  empEmail = arrayEle1['email'];
+  print(empEmail);
+
+  var dictValue2 = await coll
+      .find(where.match("email", Logemail).excludeFields([
+    "_id",
+    "password",
+    "imgString",
+    "cPass",
+    "location",
+    "name",
+    "email",
+    "dob"
+  ]))
+      .toList();
+  var arrayEle2 = dictValue2[0];
+  empPhone = arrayEle2['phone'];
+  print(empPhone);
+
+  var dictValue3 = await coll
+      .find(where.match("email", Logemail).excludeFields([
+    "_id",
+    "password",
+    "imgString",
+    "cPass",
+    "location",
+    "name",
+    "email",
+    "phone"
+  ]))
+      .toList();
+  var arrayEle3 = dictValue3[0];
+  empDob = arrayEle3['dob'];
+  print(empDob);
+
+  var dictValue4 = await coll
+      .find(where.match("email", Logemail).excludeFields([
+    "_id",
+    "password",
+    "imgString",
+    "cPass",
+    "dob",
+    "name",
+    "email",
+    "phone"
+  ]))
+      .toList();
+  var arrayEle4 = dictValue4[0];
+  empLoc = arrayEle4['location'];
+  print(empLoc);
+
+  var dictValue5 = await coll
+      .find(where.match("email", Logemail).excludeFields([
+    "_id",
+    "password",
+    "location",
+    "cPass",
+    "dob",
+    "name",
+    "email",
+    "phone"
+  ]))
+      .toList();
+  var arrayEle5 = dictValue5[0];
+  empimg = arrayEle5['imgString'];
+  print(empimg);
+
+  await db.close();
+}
