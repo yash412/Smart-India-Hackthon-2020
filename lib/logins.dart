@@ -178,7 +178,6 @@ emprofile() async {
   await db.open();
   print('connected to database');
   DbCollection coll = db.collection("employee");
-
   var dictValue0 = await coll
       .find(where.match("email", Logemail).excludeFields([
     "_id",
